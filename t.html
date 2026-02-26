@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบสร้างเว็บโปรไฟล์ส่วนตัว - 20 หน้า</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cordia New', 'Angsana New', 'TH SarabunIT', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #fffacd 50%, #e0f9ff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            gap: 0;
+        }
+
+        .left-sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #fff5f7 0%, #fffacd 100%);
+            border-right: 3px solid #daa;
+            padding: 30px 20px;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .menu-title {
+            text-align: center;
+            background: linear-gradient(135deg, #ffb6d9, #ffccee);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+            box-shadow: 0 3px 10px rgba(255, 182, 217, 0.3);
+        }
+
+        .menu-section {
+            margin-bottom: 20px;
+        }
+
+        .menu-section-title {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-decoration: underline;
+        }
+
+        .menu-section ul {
+            list-style: none;
+        }
+
+        .menu-section li {
+            padding: 8px 10px;
+            margin-bottom: 3px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            color: #333;
+            font-size: 13px;
+        }
+
+        .menu-section li:hover {
+            background: rgba(255, 182, 217, 0.3);
+            padding-left: 20px;
+        }
+
+        .menu-section li.active {
+            background: rgba(255, 182, 217, 0.5);
+            font-weight: bold;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #daa;
+        }
+
+        .social-links a {
+            display: block;
+            color: #0066ff;
+            text-decoration: underline;
+            margin-bottom: 5px;
+            font-size: 12px;
+            padding: 3px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .profile-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 205, 0.8));
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-content {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0066ff;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #4facfe;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .profile-image-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-no-image {
+            width: 150px;
+            height: 200px;
+            border-radius: 15px;
+            border: 5px solid #ddd;
+            background: linear-gradient(135deg, #f5f5f5, #efefef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 50px;
+        }
+
+        .profile-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffb6d9;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info-label {
+            font-weight: bold;
+            color: #0066ff;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .profile-info-value {
+            color: #333;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 15px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .search-highlight {
+            background-color: #ffff00;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .home-profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .home-profile-info {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .home-profile-info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .home-profile-info-value {
+            font-size: 20px;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .home-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .home-link-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ffb6d9, #ffccee);
+            color: #333;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .home-link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 182, 217, 0.5);
+        }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffb6d9, #ff69b4);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 999;
+            animation: float 3s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .admin-toggle:hover {
+            transform: scale(1.15);
+            animation: none;
+        }
+
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 450px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-admin {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: all 0.3s;
+        }
+
+        .close-admin:hover {
+            color: #333;
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ffb6d9;
+            box-shadow: 0 0 10px rgba(255, 182, 217, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-clear {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-clear:hover {
+            background: #e0e0e0;
+        }
+
+        #imagePreview {
+            margin-top: 10px;
+            max-width: 100%;
+            border-radius: 8px;
+            max-height: 120px;
+        }
+
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 60px 80px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            text-align: center;
+            display: none;
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .success-popup.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: jump 0.8s ease-out;
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .success-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 3px solid #daa;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .profile-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="success-popup" id="successPopup">
+        <div class="success-icon">✓</div>
+        <div class="success-text">บันทึกสำเร็จ!</div>
+    </div>
+
+    <div class="container">
+        <div class="left-sidebar">
+            <div class="menu-title">📚 รายการทั้งหมด</div>
+
+            <div class="menu-section">
+                <div class="menu-section-title">---เมนูบ้าน---</div>
+                <ul>
+                    <li class="active" onclick="showSection(event, 'home')">🏠 หน้าแรก</li>
+                    <li onclick="showSection(event, 'personal')">👤 ประวัติส่วนตัว</li>
+                    <li onclick="showSection(event, 'education')">📖 ประวัติการศึกษา</li>
+                    <li onclick="showSection(event, 'work')">💼 ประวัติการทำงาน</li>
+                    <li onclick="showSection(event, 'skills')">⭐ ทักษะความสามารถ</li>
+                    <li onclick="showSection(event, 'family')">👨‍👩‍👧‍👦 ข้อมูลครอบครัว</li>
+                    <li onclick="showSection(event, 'achievements')">🏆 ผลงานและรางวัล</li>
+                    <li onclick="showSection(event, 'projects')">📂 โครงการและกิจกรรม</li>
+                    <li onclick="showSection(event, 'certificates')">🎓 ใบรับรองและวุฒิ</li>
+                    <li onclick="showSection(event, 'gallery')">🖼️ แกลเลอรี่ภาพ</li>
+                    <li onclick="showSection(event, 'publications')">📰 สิ่งพิมพ์และบทความ</li>
+                    <li onclick="showSection(event, 'volunteer')">🤝 อาสาสมัคร</li>
+                    <li onclick="showSection(event, 'hobbies')">🎨 งานอดิเรก</li>
+                    <li onclick="showSection(event, 'goals')">🎯 เป้าหมายและแผนการ</li>
+                    <li onclick="showSection(event, 'languages')">🌍 ภาษาที่พูด</li>
+                    <li onclick="showSection(event, 'contact')">📞 ข้อมูลติดต่อ</li>
+                    <li onclick="showSection(event, 'social')">💬 ช่องทางสังคม</li>
+                    <li onclick="showSection(event, 'testimonials')">⭐ รีวิวและวจนะคติ</li>
+                    <li onclick="showSection(event, 'media')">🎬 มีเดีย</li>
+                    <li onclick="showSection(event, 'other')">📄 ข้อมูลอื่นๆ</li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-section-title">📋 ลิงก์อื่นๆ</div>
+                <div class="social-links">
+                    <a href="https://www.google.com" target="_blank">🔍 Google</a>
+                    <a href="https://www.youtube.com" target="_blank">▶️ Youtube</a>
+                    <a href="https://www.facebook.com" target="_blank">f Facebook</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="logo-icon">👩‍🎓</div>
+                <div class="header-title">***การสร้างเว็บเพจส่วนตัว***</div>
+            </div>
+
+            <div class="profile-container">
+                <!-- Home -->
+                <div id="home" class="section-content active">
+                    <div class="section-title">🎉 ยินดีต้อนรับ</div>
+                    <div class="profile-image-container">
+                        <div id="homeImageDisplay" class="profile-no-image">📷</div>
+                    </div>
+                    <div class="home-profile">
+                        <div class="home-profile-info">
+                            <div class="home-profile-info-label">ชื่อ</div>
+                            <div class="home-profile-info-value" id="homeNameDisplay">--ยังไม่ได้ตั้งชื่อ--</div>
+                        </div>
+                        <div class="home-profile-info">
+                            <div class="home-profile-info-label">ตำแหน่ง</div>
+                            <div class="home-profile-info-value" id="homePositionDisplay">--ยังไม่ได้ตั้งตำแหน่ง--</div>
+                        </div>
+                    </div>
+                    <div class="home-links">
+                        <button class="home-link-btn" onclick="showSection(event, 'personal')">👤 ประวัติส่วนตัว</button>
+                        <button class="home-link-btn" onclick="showSection(event, 'education')">📖 การศึกษา</button>
+                        <button class="home-link-btn" onclick="showSection(event, 'work')">💼 การทำงาน</button>
+                        <button class="home-link-btn" onclick="showSection(event, 'contact')">📞 ติดต่อ</button>
+                    </div>
+                </div>
+
+                <!-- Personal -->
+                <div id="personal" class="section-content">
+                    <div class="section-title">👤 ประวัติส่วนตัว</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="personalSearch" onkeyup="filterContent('personal')">
+                    <div class="profile-info" id="personalInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Education -->
+                <div id="education" class="section-content">
+                    <div class="section-title">📖 ประวัติการศึกษา</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="educationSearch" onkeyup="filterContent('education')">
+                    <div class="profile-info" id="educationInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Work -->
+                <div id="work" class="section-content">
+                    <div class="section-title">💼 ประวัติการทำงาน</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="workSearch" onkeyup="filterContent('work')">
+                    <div class="profile-info" id="workInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Skills -->
+                <div id="skills" class="section-content">
+                    <div class="section-title">⭐ ทักษะความสามารถ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="skillsSearch" onkeyup="filterContent('skills')">
+                    <div class="profile-info" id="skillsInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Family -->
+                <div id="family" class="section-content">
+                    <div class="section-title">👨‍👩‍👧‍👦 ข้อมูลครอบครัว</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="familySearch" onkeyup="filterContent('family')">
+                    <div class="profile-info" id="familyInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Achievements -->
+                <div id="achievements" class="section-content">
+                    <div class="section-title">🏆 ผลงานและรางวัล</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="achievementsSearch" onkeyup="filterContent('achievements')">
+                    <div class="profile-info" id="achievementsInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Projects -->
+                <div id="projects" class="section-content">
+                    <div class="section-title">📂 โครงการและกิจกรรม</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="projectsSearch" onkeyup="filterContent('projects')">
+                    <div class="profile-info" id="projectsInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Certificates -->
+                <div id="certificates" class="section-content">
+                    <div class="section-title">🎓 ใบรับรองและวุฒิ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="certificatesSearch" onkeyup="filterContent('certificates')">
+                    <div class="profile-info" id="certificatesInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Gallery -->
+                <div id="gallery" class="section-content">
+                    <div class="section-title">🖼️ แกลเลอรี่ภาพ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="gallerySearch" onkeyup="filterContent('gallery')">
+                    <div class="profile-info" id="galleryInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Publications -->
+                <div id="publications" class="section-content">
+                    <div class="section-title">📰 สิ่งพิมพ์และบทความ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="publicationsSearch" onkeyup="filterContent('publications')">
+                    <div class="profile-info" id="publicationsInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Volunteer -->
+                <div id="volunteer" class="section-content">
+                    <div class="section-title">🤝 อาสาสมัคร</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="volunteerSearch" onkeyup="filterContent('volunteer')">
+                    <div class="profile-info" id="volunteerInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Hobbies -->
+                <div id="hobbies" class="section-content">
+                    <div class="section-title">🎨 งานอดิเรก</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="hobbiesSearch" onkeyup="filterContent('hobbies')">
+                    <div class="profile-info" id="hobbiesInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Goals -->
+                <div id="goals" class="section-content">
+                    <div class="section-title">🎯 เป้าหมายและแผนการ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="goalsSearch" onkeyup="filterContent('goals')">
+                    <div class="profile-info" id="goalsInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Languages -->
+                <div id="languages" class="section-content">
+                    <div class="section-title">🌍 ภาษาที่พูด</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="languagesSearch" onkeyup="filterContent('languages')">
+                    <div class="profile-info" id="languagesInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Contact -->
+                <div id="contact" class="section-content">
+                    <div class="section-title">📞 ข้อมูลติดต่อ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="contactSearch" onkeyup="filterContent('contact')">
+                    <div class="profile-info" id="contactInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Social -->
+                <div id="social" class="section-content">
+                    <div class="section-title">💬 ช่องทางสังคม</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="socialSearch" onkeyup="filterContent('social')">
+                    <div class="profile-info" id="socialInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Testimonials -->
+                <div id="testimonials" class="section-content">
+                    <div class="section-title">⭐ รีวิวและวจนะคติ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="testimonialsSearch" onkeyup="filterContent('testimonials')">
+                    <div class="profile-info" id="testimonialsInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Media -->
+                <div id="media" class="section-content">
+                    <div class="section-title">🎬 มีเดีย</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="mediaSearch" onkeyup="filterContent('media')">
+                    <div class="profile-info" id="mediaInfo" style="display: none;"></div>
+                </div>
+
+                <!-- Other -->
+                <div id="other" class="section-content">
+                    <div class="section-title">📄 ข้อมูลอื่นๆ</div>
+                    <input type="text" class="search-box" placeholder="🔍 ค้นหา..." id="otherSearch" onkeyup="filterContent('other')">
+                    <div class="profile-info" id="otherInfo" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="admin-toggle" onclick="toggleAdminPanel()" title="Ctrl+Shift+A">⚙️</button>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-title">
+            📝 แก้ไขข้อมูล
+            <button class="close-admin" onclick="toggleAdminPanel()">✕</button>
+        </div>
+
+        <div class="form-group">
+            <label>📷 รูปภาพ</label>
+            <input type="file" id="imageInput" accept="image/*" onchange="previewImage()">
+            <img id="imagePreview" style="display: none;">
+        </div>
+
+        <h4 style="margin-top: 15px; color: #333;">ข้อมูลทั่วไป</h4>
+        <div class="form-group">
+            <label>ชื่อ</label>
+            <input type="text" id="personalName" placeholder="ชื่อ-นามสกุล">
+        </div>
+        <div class="form-group">
+            <label>ตำแหน่ง</label>
+            <input type="text" id="positionName" placeholder="ตำแหน่ง">
+        </div>
+
+        <h4 style="margin-top: 15px; color: #333;">ข้อมูลทั้ง 18 หน้า</h4>
+        
+        <div class="form-group">
+            <label>👤 ประวัติส่วนตัว</label>
+            <textarea id="personalContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>📖 ประวัติการศึกษา</label>
+            <textarea id="educationContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>💼 ประวัติการทำงาน</label>
+            <textarea id="workContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>⭐ ทักษะความสามารถ</label>
+            <textarea id="skillsContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>👨‍👩‍👧‍👦 ข้อมูลครอบครัว</label>
+            <textarea id="familyContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🏆 ผลงานและรางวัล</label>
+            <textarea id="achievementsContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>📂 โครงการและกิจกรรม</label>
+            <textarea id="projectsContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🎓 ใบรับรองและวุฒิ</label>
+            <textarea id="certificatesContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🖼️ แกลเลอรี่ภาพ</label>
+            <textarea id="galleryContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>📰 สิ่งพิมพ์และบทความ</label>
+            <textarea id="publicationsContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🤝 อาสาสมัคร</label>
+            <textarea id="volunteerContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🎨 งานอดิเรก</label>
+            <textarea id="hobbiesContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🎯 เป้าหมายและแผนการ</label>
+            <textarea id="goalsContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🌍 ภาษาที่พูด</label>
+            <textarea id="languagesContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>📞 ข้อมูลติดต่อ</label>
+            <textarea id="contactContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>💬 ช่องทางสังคม</label>
+            <textarea id="socialContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>⭐ รีวิวและวจนะคติ</label>
+            <textarea id="testimonialsContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>🎬 มีเดีย</label>
+            <textarea id="mediaContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>📄 ข้อมูลอื่นๆ</label>
+            <textarea id="otherContent" placeholder="บรรยายข้อมูล"></textarea>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-save" onclick="saveAllData()">💾 บันทึก</button>
+            <button class="btn btn-clear" onclick="clearAllData()">🗑️ ลบ</button>
+        </div>
+    </div>
+
+    <script>
+        const sections = ['personal', 'education', 'work', 'skills', 'family', 'achievements', 'projects', 'certificates', 'gallery', 'publications', 'volunteer', 'hobbies', 'goals', 'languages', 'contact', 'social', 'testimonials', 'media', 'other'];
+
+        function loadAllData() {
+            const savedData = JSON.parse(localStorage.getItem('profileData')) || {};
+            document.getElementById('personalName').value = savedData.personalName || '';
+            document.getElementById('positionName').value = savedData.positionName || '';
+            sections.forEach(section => {
+                const inputId = section + 'Content';
+                if (document.getElementById(inputId)) {
+                    document.getElementById(inputId).value = savedData[inputId] || '';
+                }
+            });
+            if (savedData.image) {
+                displayImageInSection(savedData.image);
+            }
+            updateAllDisplays();
+        }
+
+        function updateAllDisplays() {
+            const savedData = JSON.parse(localStorage.getItem('profileData')) || {};
+            document.getElementById('homeNameDisplay').textContent = savedData.personalName || '--ยังไม่ได้ตั้งชื่อ--';
+            document.getElementById('homePositionDisplay').textContent = savedData.positionName || '--ยังไม่ได้ตั้งตำแหน่ง--';
+            
+            sections.forEach(section => {
+                const inputId = section + 'Content';
+                const infoDivId = section + 'Info';
+                const infoDiv = document.getElementById(infoDivId);
+                const content = savedData[inputId] || '';
+                if (content) {
+                    infoDiv.style.display = 'block';
+                    infoDiv.innerHTML = `<div class="profile-info-label">ข้อมูล:</div><div class="profile-info-value">${content}</div>`;
+                } else {
+                    infoDiv.style.display = 'none';
+                    infoDiv.innerHTML = '<div class="no-data">--ยังไม่ได้กรอก--</div>';
+                }
+            });
+        }
+
+        function filterContent(section) {
+            const searchInput = document.getElementById(section + 'Search');
+            const infoDiv = document.getElementById(section + 'Info');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const savedData = JSON.parse(localStorage.getItem('profileData')) || {};
+            const inputId = section + 'Content';
+            const content = savedData[inputId] || '';
+
+            if (!content) {
+                infoDiv.style.display = 'block';
+                infoDiv.innerHTML = '<div class="no-data">--ยังไม่ได้กรอก--</div>';
+                return;
+            }
+
+            if (searchTerm === '') {
+                infoDiv.innerHTML = `<div class="profile-info-label">ข้อมูล:</div><div class="profile-info-value">${content}</div>`;
+            } else if (content.toLowerCase().includes(searchTerm)) {
+                const highlighted = content.replace(new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<span class="search-highlight">$1</span>');
+                infoDiv.innerHTML = `<div class="profile-info-label">✓ พบ: "${searchTerm}"</div><div class="profile-info-value">${highlighted}</div>`;
+            } else {
+                infoDiv.innerHTML = '<div class="no-data">❌ ไม่พบข้อมูล</div>';
+            }
+            infoDiv.style.display = 'block';
+        }
+
+        function saveAllData() {
+            const data = {
+                personalName: document.getElementById('personalName').value || '',
+                positionName: document.getElementById('positionName').value || '',
+                image: JSON.parse(localStorage.getItem('profileData'))?.image || null,
+                savedAt: new Date().toISOString()
+            };
+            sections.forEach(section => {
+                const inputId = section + 'Content';
+                if (document.getElementById(inputId)) {
+                    data[inputId] = document.getElementById(inputId).value || '';
+                }
+            });
+            localStorage.setItem('profileData', JSON.stringify(data));
+            showSuccessPopup();
+            updateAllDisplays();
+        }
+
+        function showSuccessPopup() {
+            const popup = document.getElementById('successPopup');
+            const overlay = document.getElementById('overlay');
+            popup.classList.add('show');
+            overlay.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+                overlay.classList.remove('show');
+            }, 2000);
+        }
+
+        function clearAllData() {
+            if (confirm('ลบข้อมูลทั้งหมด?')) {
+                localStorage.removeItem('profileData');
+                document.getElementById('personalName').value = '';
+                document.getElementById('positionName').value = '';
+                sections.forEach(section => {
+                    const inputId = section + 'Content';
+                    if (document.getElementById(inputId)) {
+                        document.getElementById(inputId).value = '';
+                    }
+                });
+                updateAllDisplays();
+                alert('✅ ลบเรียบร้อยแล้ว');
+            }
+        }
+
+        function previewImage() {
+            const file = document.getElementById('imageInput').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    document.getElementById('imagePreview').src = imageData;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    const currentData = JSON.parse(localStorage.getItem('profileData')) || {};
+                    currentData.image = imageData;
+                    localStorage.setItem('profileData', JSON.stringify(currentData));
+                    displayImageInSection(imageData);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function displayImageInSection(imageData) {
+            document.getElementById('homeImageDisplay').innerHTML = `<img src="${imageData}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+        }
+
+        function showSection(e, sectionId) {
+            if (e) e.preventDefault();
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.menu-section li').forEach(el => el.classList.remove('active'));
+            if (e && e.target.closest('li')) e.target.closest('li').classList.add('active');
+        }
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            const toggle = document.querySelector('.admin-toggle');
+            if (panel.classList.contains('active')) {
+                panel.classList.remove('active');
+                toggle.style.display = 'flex';
+            } else {
+                panel.classList.add('active');
+                toggle.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') toggleAdminPanel();
+        });
+
+        window.addEventListener('load', loadAllData);
+    </script>
+</body>
+</html>
